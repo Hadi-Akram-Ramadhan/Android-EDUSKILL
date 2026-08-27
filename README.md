@@ -1,3 +1,5 @@
+ dockerd
+
 # 📱 Learning App — Workshop Pengembangan Android
 
 Project Flutter yang dibangun dengan struktur arsitektur modular, state management terpusat, declarative routing, serta networking HTTP siap pakai.
@@ -47,11 +49,13 @@ lib/
 Bagi kolaborator / yang baru clone project ini:
 
 ### 1. Prasyarat (Prerequisites)
+
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) (versi 3.24.x ke atas)
 - [Android Studio](https://developer.android.com/studio) dengan Android SDK Command-line Tools & Platform SDK
 - VS Code / Android Studio dengan ekstensi Flutter & Dart
 
 ### 2. Instalasi Dependencies
+
 Jalankan perintah ini di root direktori project untuk mengunduh semua package:
 
 ```bash
@@ -61,6 +65,7 @@ flutter pub get
 ### 3. Menjalankan Aplikasi (Run App)
 
 #### Opsi A: Menggunakan HP Android Fisik (Direkomendasikan ⚡)
+
 1. Aktifkan **Developer Options** & **USB Debugging** di HP Android kamu.
 2. Hubungkan HP ke laptop/komputer via kabel data USB.
 3. Jalankan:
@@ -69,6 +74,7 @@ flutter pub get
    ```
 
 #### Opsi B: Menggunakan Android Emulator
+
 1. Buka emulator melalui Android Studio atau terminal:
    ```bash
    flutter emulators --launch flutter_emulator
@@ -79,6 +85,7 @@ flutter pub get
    ```
 
 #### Opsi C: Menggunakan Browser (Chrome)
+
 ```bash
 flutter run -d chrome
 ```
@@ -88,6 +95,7 @@ flutter run -d chrome
 ## ⌨️ Perintah Interaktif (Interactive Commands)
 
 Saat aplikasi sedang berjalan via `flutter run`:
+
 - **`r`** : Hot Reload (memperbarui perubahan UI secara instan)
 - **`R`** : Hot Restart (mereset state aplikasi)
 - **`h`** : Menampilkan daftar bantuan command
