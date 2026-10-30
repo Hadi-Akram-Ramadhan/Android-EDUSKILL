@@ -7,24 +7,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:learning_app/app.dart';
+import 'package:provider/provider.dart';
+import 'package:learning_app/screens/auth/login_screen.dart';
+import 'package:learning_app/providers/auth_provider.dart';
+import 'package:learning_app/core/theme/app_theme.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+  testWidgets('Login screen shows EduSkill branding and demo accounts', (WidgetTester tester) async {
+    final authProvider = AuthProvider();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ChangeNotifierProvider<AuthProvider>.value(
+        value: authProvider,
+        child: MaterialApp(
+          theme: AppTheme.lightTheme,
+          home: const LoginScreen(),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('EduSkill'), findsOneWidget);
+    expect(find.text('Masuk ke Akun'), findsOneWidget);
+    expect(find.text('Siswa SMP (Budi Santoso)'), findsOneWidget);
+    expect(find.byType(TextField), findsNWidgets(2));
   });
 }

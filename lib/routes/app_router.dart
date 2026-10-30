@@ -1,27 +1,55 @@
 import 'package:go_router/go_router.dart';
-import 'package:learning_app/screens/home/home_screen.dart';
+import '../providers/auth_provider.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/register_screen.dart';
+import '../screens/lesson/lesson_player_screen.dart';
+import '../screens/main_navigation_screen.dart';
 
 class AppRouter {
   AppRouter._();
 
-  static final GoRouter router = GoRouter(
-    initialLocation: '/',
-    debugLogDiagnostics: true,
-    routes: [
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (context, state) => const HomeScreen(),
-      ),
-      // Tambah route baru di sini:
-      // GoRoute(
-      //   path: '/detail/:id',
-      //   name: 'detail',
-      //   builder: (context, state) {
-      //     final id = state.pathParameters['id']!;
-      //     return DetailScreen(id: id);
-      //   },
-      // ),
-    ],
-  );
+  static GoRouter createRouter(AuthProvider authProvider) {
+    return GoRouter(
+      initialLocation: '/',
+      refreshListenable: authProvider,
+      redirect: (context, state) {
+        final isLoggedIn = authProvider.isAuthenticated;
+        final isAuthRoute = state.matchedLocation == '/login' || state.matchedLocation == '/register';
+
+        if (!isLoggedIn && !isAuthRoute) {
+          return '/login';
+        }
+        if (isLoggedIn && isAuthRoute) {
+          return '/';
+        }
+        return null;
+      },
+      routes: [
+        GoRoute(
+          path: '/',
+          name: 'main',
+          builder: (context, state) => const MainNavigationScreen(),
+        ),
+        GoRoute(
+          path: '/login',
+          name: 'login',
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: '/register',
+          name: 'register',
+          builder: (context, state) => const RegisterScreen(),
+        ),
+        GoRoute(
+          path: '/lesson/:id',
+          name: 'lesson',
+          builder: (context, state) {
+            final idStr = state.pathParameters['id'] ?? '1';
+            final id = int.tryParse(idStr) ?? 1;
+            return LessonPlayerScreen(lessonId: id);
+          },
+        ),
+      ],
+    );
+  }
 }

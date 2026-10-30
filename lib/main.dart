@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:learning_app/app.dart';
+import 'package:provider/provider.dart';
+import 'app.dart';
+import 'providers/auth_provider.dart';
+import 'providers/course_provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Kalau udah ada providers, wrap pake MultiProvider:
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider(create: (_) => AuthProvider()),
-  //     ],
-  //     child: const App(),
-  //   ),
-  // );
+  final authProvider = AuthProvider();
+  await authProvider.checkAuthStatus();
 
-  runApp(const App());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
+        ChangeNotifierProvider<CourseProvider>(create: (_) => CourseProvider()),
+      ],
+      child: const App(),
+    ),
+  );
 }
