@@ -1,12 +1,22 @@
+import 'package:flutter/foundation.dart';
+
 class AppConstants {
   AppConstants._();
 
   static const String appName = 'EduSkill';
   static const String appVersion = '1.0.0';
 
-  // Android Emulator → Host 10.0.2.2; Physical Device → Your LAN IP
-  // ponytail: use flavor/env config when deploying to staging/production
-  static const String baseUrl = 'http://10.0.2.2:8000/api/v1';
+  // Android Emulator → Host 10.0.2.2; Web & Desktop → 127.0.0.1; Physical Device → Your LAN IP
+  static String get baseUrl {
+    if (kIsWeb) {
+      return 'http://127.0.0.1:8000/api/v1';
+    }
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return 'http://10.0.2.2:8000/api/v1';
+    }
+    return 'http://127.0.0.1:8000/api/v1';
+  }
+
   static const String baseUrlFallback = 'http://localhost:8000/api/v1';
 
   static const int connectTimeout = 15000;
