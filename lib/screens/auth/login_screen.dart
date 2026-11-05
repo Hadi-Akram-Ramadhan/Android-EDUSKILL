@@ -200,18 +200,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                'DEMO AKUN UJI COBA:',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w800,
-                                  color: Color(0xFF64748B),
-                                  letterSpacing: 0.5,
+                            children: [
+                              const Flexible(
+                                child: Text(
+                                  'DEMO AKUN UJI COBA:',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFF64748B),
+                                    letterSpacing: 0.5,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Text(
+                              const SizedBox(width: 8),
+                              const Text(
                                 'Klik untuk Masuk',
                                 style: TextStyle(
                                   fontSize: 12,

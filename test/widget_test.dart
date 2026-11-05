@@ -1,4 +1,4 @@
-// This is a basic Flutter widget test.
+// Widget test for EduSkill Flutter app.
 //
 // To perform an interaction with a widget in your test, use the WidgetTester
 // utility in the flutter_test package. For example, you can send tap and scroll
@@ -26,9 +26,24 @@ void main() {
       ),
     );
 
-    expect(find.text('EduSkill'), findsOneWidget);
-    expect(find.text('Masuk ke Akun'), findsOneWidget);
-    expect(find.text('Siswa SMP (Budi Santoso)'), findsOneWidget);
+    // Title contains 'EduSkill'
+    expect(find.textContaining('EduSkill'), findsAtLeastNWidgets(1));
+
+    // Subtitle / heading text
+    expect(find.text('Masuk ke EduSkill'), findsOneWidget);
+
+    // Form labels
+    expect(find.text('ALAMAT EMAIL'), findsOneWidget);
+    expect(find.text('KATA SANDI'), findsOneWidget);
+
+    // Submit button
+    expect(find.text('MASUK SEKARANG'), findsOneWidget);
+
+    // Demo account chips – name shown as text in chip
+    expect(find.text('Budi Santoso'), findsOneWidget);
+    expect(find.text('Siti Nurhaliza'), findsOneWidget);
+
+    // Two TextFields: email and password
     expect(find.byType(TextField), findsNWidgets(2));
   });
 }
