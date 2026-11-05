@@ -5,7 +5,7 @@ class ApiException implements Exception {
   ApiException(this.message, {this.statusCode});
 
   @override
-  String toString() => 'ApiException($statusCode): $message';
+  String toString() => message;
 }
 
 class NetworkException implements Exception {
@@ -13,9 +13,13 @@ class NetworkException implements Exception {
   NetworkException([this.message = 'Tidak ada koneksi internet atau server tidak merespon.']);
 
   @override
-  String toString() => 'NetworkException: $message';
+  String toString() => message;
 }
 
 class UnauthorizedException implements Exception {
-  const UnauthorizedException();
+  final String message;
+  const UnauthorizedException([this.message = 'Sesi login telah berakhir. Silakan masuk kembali.']);
+
+  @override
+  String toString() => message;
 }

@@ -23,23 +23,21 @@ class ApiService {
 
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // Auto attach saved token
-        if (options.headers['Authorization'] == null) {
-          final prefs = await SharedPreferences.getInstance();
-          final token = prefs.getString(AppConstants.tokenKey);
-          if (token != null && token.isNotEmpty) {
-            options.headers['Authorization'] = 'Bearer $token';
-          }
+        // Auto attach saved token if available
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString(AppConstants.tokenKey);
+        if (token != null && token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
         }
-        logger.d('=> \${options.method} \${options.path}');
+        logger.d('=> ${options.method} ${options.path}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        logger.i('<= \${response.statusCode} \${response.requestOptions.path}');
+        logger.i('<= ${response.statusCode} ${response.requestOptions.path}');
         return handler.next(response);
       },
       onError: (DioException error, handler) {
-        logger.e('!! \${error.response?.statusCode} \${error.requestOptions.path}: \${error.message}');
+        logger.e('!! ${error.response?.statusCode} ${error.requestOptions.path}: ${error.message}');
         if (error.response?.statusCode == 401) {
           handler.reject(DioException(
             requestOptions: error.requestOptions,
@@ -59,12 +57,22 @@ class ApiService {
   }
 
   String _extractServerMsg(dynamic data) {
-    if (data is Map) return (data['message'] as String?) ?? 'Server error';
+    if (data is Map) {
+      if (data['data'] is Map && (data['data'] as Map).isNotEmpty) {
+        final errMap = data['data'] as Map;
+        final firstVal = errMap.values.first;
+        if (firstVal is List && firstVal.isNotEmpty) {
+          return firstVal.first.toString();
+        }
+        if (firstVal is String) return firstVal;
+      }
+      return (data['message'] as String?) ?? 'Server error';
+    }
     return 'Terjadi kesalahan. Coba lagi.';
   }
 
   void setAuthToken(String token) {
-    _dio.options.headers['Authorization'] = 'Bearer \$token';
+    _dio.options.headers['Authorization'] = 'Bearer $token';
   }
 
   void clearAuthToken() {

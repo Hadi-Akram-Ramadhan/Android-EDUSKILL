@@ -26,13 +26,20 @@ class AuthService {
     throw Exception(data['message'] ?? 'Login gagal');
   }
 
-  Future<Map<String, dynamic>> register(String name, String? nisNim, String email, String password, String role) async {
+  Future<Map<String, dynamic>> register({
+    required String name,
+    String? nisNim,
+    required String email,
+    required String password,
+    String? passwordConfirmation,
+    String role = 'siswa',
+  }) async {
     final response = await _api.post('/auth/register', data: {
       'name': name,
       if (nisNim != null && nisNim.isNotEmpty) 'nis_nim': nisNim,
       'email': email,
       'password': password,
-      'password_confirmation': password,
+      'password_confirmation': passwordConfirmation ?? password,
       'role': role,
     });
     final data = response.data as Map<String, dynamic>;
@@ -86,3 +93,4 @@ class AuthService {
     await prefs.setString(AppConstants.userKey, user.toJson().toString());
   }
 }
+

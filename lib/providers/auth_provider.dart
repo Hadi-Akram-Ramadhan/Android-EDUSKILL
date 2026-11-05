@@ -56,13 +56,21 @@ class AuthProvider extends ChangeNotifier {
     String? nisNim,
     required String email,
     required String password,
+    String? passwordConfirmation,
     String role = 'siswa',
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
     try {
-      final result = await _authService.register(name, nisNim, email, password, role);
+      final result = await _authService.register(
+        name: name,
+        nisNim: nisNim,
+        email: email,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+        role: role,
+      );
       _user = result['user'] as UserModel?;
       _isLoading = false;
       notifyListeners();
@@ -114,3 +122,4 @@ class AuthProvider extends ChangeNotifier {
     return false;
   }
 }
+

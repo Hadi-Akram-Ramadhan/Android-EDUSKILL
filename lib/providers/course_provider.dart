@@ -44,7 +44,7 @@ class CourseProvider extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
     try {
-      final res = await _apiService.get('/courses/\$courseId');
+      final res = await _apiService.get('/courses/$courseId');
       final data = res.data as Map<String, dynamic>;
       if (data['success'] == true && data['data'] != null) {
         _activeCourse = CourseModel.fromJson(data['data'] as Map<String, dynamic>);
